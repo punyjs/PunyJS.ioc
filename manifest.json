@@ -10,10 +10,10 @@
             , "files": [
                 "./Errors.json"
                 , "./Defaults.json"
-                , "{project}/TruJS.core/timing/_Timestamper.js"
-                , "{project}/TruJS.core/data/_IdGenerator.js"
-                , "{project}/TruJS.core/log/_ProcessDetails.js"
-                , "{project}/TruJS.core/log/_Reporter.js"
+                , "{TruJS.core}/timing/_Timestamper.js"
+                , "{TruJS.core}/data/_IdGenerator.js"
+                , "{TruJS.core}/log/_ProcessDetails.js"
+                , "{TruJS.core}/log/_Reporter.js"
                 , "./_Namespace.js"
                 , "./_NamespaceParser.js"
                 , "./externalLoader/_SourceListController.js"
@@ -22,6 +22,7 @@
                 , "./externalLoader/loaders/_HttpLoader.js"
                 , "./externalLoader/loaders/_WebSocketLoader.js"
                 , "./externalLoader/_ExternalLoader.js"
+                , "./controller/_DependencyNotationEntryTyper.js"
                 , "./controller/_DependencyNotationTranslator.js"
                 , "./controller/_OfflineStorage.js"
                 , "./controller/_ConsumerReference.js"
@@ -45,10 +46,10 @@
             , "include": {
                 "post-collect": 0
             }
+            , "engine": "node"
+            , "export": "controller"
             , "module": {
-                "environment": "node"
-                , "export": "controller"
-                , "statements": {
+                "statements": {
                     "beginning": [
                         "var xmlHttpRequest = null"
                         , ", performance = null"
@@ -59,18 +60,20 @@
                     ]
                 }
             }
-            , "output": "TruJS/ioc/ioc-controller-node.js"
+            , "config": {
+                "output": "TruJS/ioc/ioc-controller-node.js"
+            }
         }
         , {
             "type": "trujs.module"
             , "include": {
                 "post-collect": 0
             }
-            , "module": {
-                "environment": "browser"
-                , "export": "controller"
+            , "engine": "browser"
+            , "export": "controller"
+            , "config": {
+                "output": "TruJS/ioc/ioc-controller-browser.js"
             }
-            , "output": "TruJS/ioc/ioc-controller-browser.js"
         }
     ]
 }

@@ -11,7 +11,7 @@ The namespace is a delimited string that represents the path to a specific depen
 | >  hexOctet              | `hexDigit` `hexDigit`                                |
 | > hexDigit              | `/^[0-9A-F]$/`                                    |
 | local&nbsp;namespace    | `part` `[ 1*( "." part ) ]` `[ ( "." version ) / ( "#" commit hash ) ]` |
-| > part                  | `/^[A-z][0-9A-z]*$/`                              |
+| > part                  | `/^[A-z][0-9A-z_.]*$/`                              |
 | > version               | `major` `"." minor` `"." patch` `[ "-" prerelease ]` `[ "+" build ]` |
 | >> major                | `/^[0-9]+$/`<br>"...  if any backwards incompatible changes are introduced" |
 | >> minor                | `/^[0-9]+$/`<br>"... if new, backwards compatible functionality is introduced" |

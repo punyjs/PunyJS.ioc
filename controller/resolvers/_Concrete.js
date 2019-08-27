@@ -53,6 +53,12 @@ function _Concrete(
                     abstractEntry.namespace
                 );
             })
+            //catch load errors
+            .catch(function catchError(err) {
+                return Promise.reject(
+                    `${errors.failed_load_dependency} (${abstractEntry.namespace}) ${err}`
+                );
+            })
             //update the container at namespace
             .then(function thenUpdateContainer(result) {
                 /// LOGGING
@@ -107,7 +113,10 @@ function _Concrete(
     * @function
     */
     function translateDependencies(concreteEntry) {
-        if (Array.isArray(concreteEntry.options.dependencies)) {
+        if (
+            !!concreteEntry.options
+            && Array.isArray(concreteEntry.options.dependencies)
+        ) {
             return concreteEntry.options.dependencies
                 .map(function mapDep(dep) {
                     return dependencyNotationTranslator(dep);

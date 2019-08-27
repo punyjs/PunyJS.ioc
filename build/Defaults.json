@@ -1,0 +1,25 @@
+{
+    "extSuffixMap": {
+        "Jpg": ".jpg"
+        , "Png": ".png"
+        , "Gif": ".gif"
+        , "Txt": ".txt"
+        , "Rtf": ".rtf"
+        , "Csv": ".csv"
+        , "Xml": ".xml"
+        , "Html": ".html"
+        , "Css": ".css"
+        , "Scss": ".scss"
+        , "Svg": ".svg"
+        , "Pdf": ".pdf"
+        , "Base64": ".base64"
+        , "Bin": ".bin"
+    }
+    , "dtreeFileNamePropertyName": "dtreeFileName"
+    , "config": {
+        "dtreeFileName": "dtree"
+        , "ioc": {
+            "container": "TruJS.ioc.container._Container"
+        }
+    }
+}

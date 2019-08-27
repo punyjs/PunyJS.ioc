@@ -4,10 +4,6 @@
 * @factory
 *   @utility
 *   @singleton
-* ---
-* @naming
-*   @namespace container
-* ---
 * @interface iContainer
 *   @property {function} register Registers a dependency with the container at
 *   `namespace`.
@@ -15,7 +11,6 @@
 *   @property {function} set Registers a dependency and then evaluates the
     dependency within the root scope.
 *   @property {function} meta Returns meta data about the tree.
-* ---
 * @interface iContainerEntry
 *   @property {string} namespace The namespace of the entry
 *   @property {string} name The name of the property on the parent
@@ -25,7 +20,6 @@
 *   @property {any   } value The resolved dependency
 *   @property {object} children A collection of child iContainerEntrys
 *   @property {string} options A collection of options for the iContainerEntry
-* ---
 * @interface iContainerMeta
 *   @property {string} namespace
 *   @property {string} name
@@ -33,7 +27,7 @@
 *   @property {object} options
 */
 function _Container(
-    defaults
+
 ) {
     /**
     * A collection of errors
@@ -118,17 +112,22 @@ function _Container(
         /**
         * Registers the namespace and resolved value in the root container.
         * @method
-        *   @param {string} namespace The path in the root to store the
-        *   dependency
+        *   @param {string} namespace The path in the root to store the dependency
         *   @param {any} value The value that is the concrete dependency
-        *   @param {bool|object} options An object that holds configuration
-        *   information for the concrete value. If a boolean value, a default
-        *   options object is created and the boolean value is used for the
-        *   overwrite property.
+        *   @param {bool|object} options An object that holds configuration information
+        *   for the concrete value. If a boolean value, a default options object is
+        *   created and the boolean value is used for the overwrite property.
         */
         , "register": {
             "enumerable": true
             , "value": function register(namespace, value, options = true) {
+                //if namespace is an object
+                if (typeof namespace === "object") {
+                    value = namespace.value;
+                    options = namespace.options;
+                    namespace = namespace.namespace;
+                }
+
                 //validate the namespace
                 if (!namespace) {
                     throw new Error(errors.invalid_namespace);
@@ -186,7 +185,7 @@ function _Container(
             }
         }
         /**
-        * Returns the {iContainerEntry} entry for the namespace
+        * Returns the dependency from the root, at `namespace`
         * @method
         */
         , "get": {
@@ -196,7 +195,7 @@ function _Container(
                 if (entry) {
                     return entry;
                 }
-                return new Error(error.missing_namespace);
+                return new Error(errors.missing_namespace);
             }
         }
         /**
@@ -228,7 +227,7 @@ function _Container(
         , "hasNamespace": {
             "enumerable": true
             , "value": function hasNamespace(namespace) {
-                return namespaces.indexOf(namespace) !== -1;
+                return namespaces.hasOwnProperty(namespace);
             }
         }
         /**
@@ -278,7 +277,7 @@ function _Container(
     * Creates the namespace on the root object, returning the iContainerEntry
     * @funciton
     */
-    function createNamespaceEntry(namespace, value, dependencies) {
+    function createNamespaceEntry(namespace, value, options) {
         //split the namespace and get ready to loop
         var nameAr = namespace.split(".")
         , name = nameAr.pop() //remove the name from the namespace
@@ -290,7 +289,7 @@ function _Container(
             , "type": Array.isArray(value)
                 ? "array"
                 : typeof value
-            , "dependencies": dependencies
+            , "options": options
         };
 
         //loop through the parts of the namespace, creating any iContainerEntrys

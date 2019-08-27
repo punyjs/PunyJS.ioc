@@ -27,10 +27,10 @@ function _MonolithCollector(
     */
     return function MonolithCollector(
         entry
-        , config
         , assets
         , procDetail
     ) {
+        var assetPathData;
         //generate the complete dependency tree
         return dependencyTreeGenerator(
             entry
@@ -44,13 +44,30 @@ function _MonolithCollector(
         })
         //then use the dependency paths to load the assets
         .then(function thenCollectAssets(paths) {
-            entry.files = paths;
+            assetPathData = paths;
+            entry.files = getfilePaths(paths);
             return fileCollect(
                 entry
-                , config
                 , assets
                 , procDetail
             );
+        })
+        //then add the asset path data
+        .then(function thenAddPathData(assets) {
+            assets.forEach(function forEachAsset(asset,indx) {
+                asset.entries = assetPathData[indx].entries;
+            });
+            return promise.resolve(assets);
         });
     };
+
+    /**
+    * Generates a list of file paths from the asset path objects
+    * @function
+    */
+    function getfilePaths(paths) {
+        return paths.map(function mapPaths(pathObj) {
+            return pathObj.path;
+        });
+    }
 }

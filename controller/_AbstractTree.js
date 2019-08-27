@@ -68,6 +68,8 @@ function _AbstractTree(
                 if (!!abstractTree) {
                     throw new Error(errors.tree_set);
                 }
+                //see if the tree is already processed
+                
                 //recursively loop through the external tree
                 abstractTree = {
                     "name": "root"

@@ -34,4 +34,5 @@
     , "no_reset_eval": "[No Reset Eval] Evaluate dependencies can not be reset."
     , "invalid_union_object": "[Invalid Union Object] A union dependency requires that the members to be unioned be objects."
     , "union_conflict": "[Union Conflict] A property name is duplicated within union object."
+    , "failed_load_dependency": "[Failed Load Dependeny] Failed to load the dependency."
 }
