@@ -6,8 +6,8 @@
     }
     , "entries": [
         {
-            "type": "trujs.file"
-            , "files": [
+            "type": "file"
+            , "paths": [
                 "./Errors.json"
                 , "./Defaults.json"
                 , "{TruJS.core}/timing/_Timestamper.js"
@@ -42,7 +42,7 @@
             ]
         }
         , {
-            "type": "trujs.module"
+            "type": "module"
             , "include": {
                 "post-collect": 0
             }
@@ -65,7 +65,7 @@
             }
         }
         , {
-            "type": "trujs.module"
+            "type": "module"
             , "include": {
                 "post-collect": 0
             }
