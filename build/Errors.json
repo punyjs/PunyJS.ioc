@@ -1,6 +1,0 @@
-{
-    "invalid_dep_tree": "[Invalid Dependency Tree] The dependency tree is not valid JSON."
-    , "mismatched_entry_types": "[Mismatched Entry Types] Unable to merge dependency entries, they have mismatched types."
-    , "mismatched_factories": "[Mismatched Factories] The factory entries have inconsistent factory values."
-    , "unable_merge": "[Unable Merge] Unable to merge the two dependency entries."
-}
