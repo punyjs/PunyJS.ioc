@@ -11,6 +11,13 @@ function _Evaluate(
     , reporter
     , processDetails
 ) {
+    /**
+    * @constants
+    */
+    var cnsts = {
+        "nodeModuleError": /Error: Cannot find module '(.*)'/
+        , "moduleErrorMsg": "A required node module is missing "
+    };
 
     /**
     * Evaluates the expression within the global scope
@@ -39,13 +46,9 @@ function _Evaluate(
                 , procDetails
             );
             /// END LOGGING
-            var funcParamNames =
-                Object.keys(global)
-                .concat(`return ${abstractEntry.expression};`)
-            , funcArgs = Object.values(global);
-
-            return Promise.resolve(
-                Function.apply(null, funcParamNames).apply(null, funcArgs)
+            return evaluateExpression(
+                global
+                , abstractEntry
             );
         })
         .then(function thenReturnResult(result) {
@@ -60,4 +63,36 @@ function _Evaluate(
             });
         });
     };
+
+    /**
+    * Attempts to evaluate the expression, hiding the globals for security
+    * @function
+    */
+    function evaluateExpression(global, abstractEntry) {
+        try {
+            var funcParamNames =
+                Object.keys(global)
+                .concat(`return ${abstractEntry.expression};`)
+            , funcArgs = Object.values(global)
+            //Construct a Function to evaluate the expression
+            , result =
+                Function.apply(null, funcParamNames)
+                .apply(null, funcArgs);
+
+            return Promise.resolve(result);
+        }
+        catch(ex) {
+            var match =
+                ex.toString()
+                .match(cnsts.nodeModuleError);
+
+            if (!!match) {
+                ex = new Error(
+                    `${cnsts.moduleErrorMsg} '${match[1]}'`
+                );
+            }
+
+            return Promise.reject(ex);
+        }
+    }
 }
