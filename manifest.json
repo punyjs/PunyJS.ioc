@@ -1,12 +1,13 @@
 {
     "name": "TruJS.ioc.controller"
-    , "description": ""
-    , "module": {
+    , "description": "The project manifest for the TruJS ioc controller module, creating both node and browser compatible modules."
+    , "javascript": {
         "strict": true
     }
     , "entries": [
         {
-            "type": "file"
+            "type": "javascript"
+            , "name": "generic-module"
             , "paths": [
                 "./Errors.json"
                 , "./Defaults.json"
@@ -43,11 +44,10 @@
         }
         , {
             "type": "module"
+            , "name": "node-module"
             , "include": {
-                "post-collect": 0
+                "post-assemble": 0
             }
-            , "engine": "node"
-            , "export": "controller"
             , "module": {
                 "statements": {
                     "beginning": [
@@ -62,17 +62,27 @@
             }
             , "config": {
                 "output": "TruJS/ioc/ioc-controller-node.js"
+                , "engine": "node"
+                , "export": "controller"
             }
         }
         , {
             "type": "module"
+            , "name": "browser-module"
             , "include": {
-                "post-collect": 0
+                "post-assemble": 0
             }
-            , "engine": "browser"
-            , "export": "controller"
             , "config": {
                 "output": "TruJS/ioc/ioc-controller-browser.js"
+                , "engine": "browser"
+                , "export": "controller"
+            }
+        }
+        , {
+            "type": "test"
+            , "name": "test-package"
+            , "config": {
+
             }
         }
     ]
