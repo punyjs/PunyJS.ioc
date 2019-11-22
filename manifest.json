@@ -1,8 +1,9 @@
 {
     "name": "TruJS.ioc.controller"
     , "description": "The project manifest for the TruJS ioc controller module, creating both node and browser compatible modules."
-    , "javascript": {
-        "strict": true
+    , "config": {
+        "output": "TruJS/ioc/"
+        , "strict": true
     }
     , "entries": [
         {
@@ -15,6 +16,7 @@
                 , "{TruJS.core}/data/_IdGenerator.js"
                 , "{TruJS.core}/log/_ProcessDetails.js"
                 , "{TruJS.core}/log/_Reporter.js"
+                , "{TruJS.core}/is/Object.js"
                 , "./_Namespace.js"
                 , "./_NamespaceParser.js"
                 , "./externalLoader/_SourceListController.js"
@@ -61,9 +63,20 @@
                 }
             }
             , "config": {
-                "output": "TruJS/ioc/ioc-controller-node.js"
+                "fileName": "ioc-controller-node.js"
                 , "engine": "node"
                 , "export": "controller"
+            }
+        }
+        , {
+            "type": "test"
+            , "name": "test-package"
+            , "units": {
+                "module": -1
+            }
+            , "config": {
+                "fileName": "ioc-controller-${config.engine}.testpkg.json"
+                , "engine": "node"
             }
         }
         , {
@@ -73,7 +86,7 @@
                 "post-assemble": 0
             }
             , "config": {
-                "output": "TruJS/ioc/ioc-controller-browser.js"
+                "fileName": "ioc-controller-browser.js"
                 , "engine": "browser"
                 , "export": "controller"
             }
@@ -81,8 +94,12 @@
         , {
             "type": "test"
             , "name": "test-package"
+            , "units": {
+                "module": -1
+            }
             , "config": {
-
+                "fileName": "ioc-controller-${config.engine}.testpkg.json"
+                , "engine": "browser"
             }
         }
     ]
