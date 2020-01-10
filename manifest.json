@@ -1,6 +1,9 @@
 {
-    "name": "TruJS.ioc.controller"
-    , "description": "The project manifest for the TruJS ioc controller module, creating both node and browser compatible modules."
+    "namespace": "TruJS.ioc.controller"
+    , "description": [
+        "The project manifest for the TruJS ioc controller module, creating both node and browser compatible modules."
+    ]
+    , "namePrefix": "ioc-controller"
     , "config": {
         "output": "TruJS/ioc/"
         , "strict": true
@@ -43,6 +46,9 @@
                 , "./controller/_DependencyController.js"
                 , "./controller/_Controller.js"
             ]
+            , "config": {
+                "output": null
+            }
         }
         , {
             "type": "module"
@@ -63,7 +69,7 @@
                 }
             }
             , "config": {
-                "fileName": "ioc-controller-node.js"
+                "fileName": "${namePrefix}-${config.engine}.js"
                 , "engine": "node"
                 , "export": "controller"
             }
@@ -75,7 +81,7 @@
                 "module": -1
             }
             , "config": {
-                "fileName": "ioc-controller-${config.engine}.testpkg.json"
+                "fileName": "${namePrefix}-${config.engine}.testpkg.json"
                 , "engine": "node"
             }
         }
@@ -86,8 +92,8 @@
                 "post-assemble": 0
             }
             , "config": {
-                "fileName": "ioc-controller-browser.js"
-                , "engine": "browser"
+                "engine": "browser"
+                , "fileName": "${namePrefix}-${config.engine}.js"
                 , "export": "controller"
             }
         }
@@ -98,8 +104,8 @@
                 "module": -1
             }
             , "config": {
-                "fileName": "ioc-controller-${config.engine}.testpkg.json"
-                , "engine": "browser"
+                "engine": "browser"
+                , "fileName": "${namePrefix}-${config.engine}.testpkg.json"
             }
         }
     ]
