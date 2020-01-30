@@ -5,6 +5,7 @@
     , "invalid_dependencies": "[Invalid Dependencies] The value provided for the dependencies must be an array."
     , "invalid_members": "[Invalid Members] The members collection should be an object."
     , "invalid_factory": "[Invalid Factory] The resolved dependency is not a valid factory entry."
+    , "invalid_bind_option": "[Invalid Bind Option] The bind option must be an object."
     , "invalid_bind_func": "[Invalid Bind Function] The target of the bind operation must be a function."
     , "invalid_entry_type": "[Invalid Entry Type] The instance of {iAbstractEntry} does not contain a valid type."
     , "invalid_abstract_namespace": "[Invalid Abstract Namespace] The abstract namespace should follow dependency notation."
