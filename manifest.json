@@ -18,8 +18,8 @@
                 , "{TruJS.core}/timing/_Timestamper.js"
                 , "{TruJS.core}/data/_IdGenerator.js"
                 , "{TruJS.core}/log/_ProcessDetails.js"
-                , "{TruJS.core}/log/_Reporter.js"
                 , "{TruJS.core}/is/Object.js"
+                , "{TruJS.core}/log/_Reporter.js"
                 , "./_Namespace.js"
                 , "./_NamespaceParser.js"
                 , "./externalLoader/_SourceListController.js"
@@ -62,8 +62,8 @@
                         "var xmlHttpRequest = null"
                         , ", performance = null"
                         , ", origin = null"
-                        , ", nodePath = require(\"path\")"
-                        , ", nodeFs = require(\"fs\")"
+                        , ", node_path = require(\"path\")"
+                        , ", node_fs = require(\"fs\")"
                         , ";"
                     ]
                 }
@@ -90,6 +90,18 @@
             , "name": "browser-module"
             , "include": {
                 "post-assemble": 0
+            }
+            , "module": {
+                "statements": {
+                    "beginning": [
+                        "var xmlHttpRequest = XMLHttpRequest"
+                        , ", origin = null"
+                        , ", process = null"
+                        , ", node_path = null"
+                        , ", node_fs = null"
+                        , ";"
+                    ]
+                }
             }
             , "config": {
                 "engine": "browser"
