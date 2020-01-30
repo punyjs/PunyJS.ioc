@@ -44,7 +44,7 @@ function _Abstract(
                 return Promise.reject(ex);
             }
         })
-        .then(function (foundEntry) {
+        .then(function thenResolveDependencies(foundEntry) {
             //if we found the entry, it will always be another abstract entry, so resolve that
             if (!!foundEntry) {
                 /// LOGGING
@@ -57,6 +57,13 @@ function _Abstract(
                     foundEntry
                     , procDetails
                 );
+            }
+            //see if we have a default value
+            if (
+                !!abstractEntry.options
+                && abstractEntry.options.hasOwnProperty("default")
+            ) {
+                return abstractEntry.options.default;
             }
             //if we made it here then the abstract entry doesn't exist, bad news
             return Promise.reject(
