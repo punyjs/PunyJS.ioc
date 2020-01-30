@@ -7,7 +7,8 @@
 *   @alias resolvers.bind
 */
 function _Bind(
-    errors
+    dependencyNotationTranslator
+    , errors
     , reporter
     , processDetails
 ) {
@@ -30,7 +31,15 @@ function _Bind(
         , dependencyResolver
         , procDetails
     ) {
-        return Promise.resolve()
+        return new Promise(function validateBind(resolve, reject) {
+            var bindObj = abstractEntry.options.bind;
+            if (typeof bindObj !== "object" || Array.isArray(bindObj)) {
+                reject(
+                    `${errors.invalid_bind_option} (${abstractEntry.options.bind})`
+                );
+            }
+            resolve();
+        })
         .then(function thenStartBind() {
             /// LOGGING
             reporter.ioc(
@@ -41,7 +50,7 @@ function _Bind(
             //validate the target of the bind is a function
             return validateTarget(
                 resolvedEntry.value
-            )
+            );
         })
         //resolve the scope
         .then(function thenResolveScope() {
@@ -55,7 +64,9 @@ function _Bind(
                 /// END LOGGING
                 //resolve the scope
                 return dependencyResolver(
-                    scope
+                    dependencyNotationTranslator(
+                        scope
+                    )
                     , procDetails
                 );
             }
@@ -154,7 +165,7 @@ function _Bind(
         ;
         //execute the bind
         try {
-            Promise.resolve(
+            return Promise.resolve(
                 fn.bind(scope, args)
             );
         }
