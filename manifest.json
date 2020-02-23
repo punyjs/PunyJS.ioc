@@ -1,79 +1,12 @@
 {
     "namespace": "TruJS.ioc.controller"
-    , "description": [
-        "The project manifest for the TruJS ioc controller module, creating both node and browser compatible modules."
-    ]
-    , "namePrefix": "ioc-controller"
+    , "iocNamePrefix": "ioc-controller"
     , "config": {
-        "output": "TruJS/ioc/"
-        , "strict": true
+        "strict": true
     }
     , "entries": [
-        {
-            "type": "javascript"
-            , "name": "generic-module"
-            , "paths": [
-                "./Errors.json"
-                , "./Defaults.json"
-                , "{TruJS.core}/timing/_Timestamper.js"
-                , "{TruJS.core}/data/_IdGenerator.js"
-                , "{TruJS.core}/log/_ProcessDetails.js"
-                , "{TruJS.core}/is/Object.js"
-                , "{TruJS.core}/log/_Reporter.js"
-                , "./_Namespace.js"
-                , "./_NamespaceParser.js"
-                , "./externalLoader/_SourceListController.js"
-                , "./externalLoader/_SourceFinder.js"
-                , "./externalLoader/loaders/_FileLoader.js"
-                , "./externalLoader/loaders/_HttpLoader.js"
-                , "./externalLoader/loaders/_WebSocketLoader.js"
-                , "./externalLoader/_ExternalLoader.js"
-                , "./controller/_DependencyNotationEntryTyper.js"
-                , "./controller/_DependencyNotationTranslator.js"
-                , "./controller/_OfflineStorage.js"
-                , "./controller/_ConsumerReference.js"
-                , "./controller/_DependencyLoader.js"
-                , "./controller/_AbstractTree.js"
-                , "./controller/resolvers/_Bind.js"
-                , "./controller/resolvers/_Evaluate.js"
-                , "./controller/resolvers/_Concrete.js"
-                , "./controller/resolvers/_Abstract.js"
-                , "./controller/resolvers/_Branch.js"
-                , "./controller/resolvers/_Method.js"
-                , "./controller/resolvers/_Literal.js"
-                , "./controller/resolvers/_Factory.js"
-                , "./controller/resolvers/_Union.js"
-                , "./controller/_DependencyController.js"
-                , "./controller/_Controller.js"
-            ]
-            , "config": {
-                "output": null
-            }
-        }
-        , {
-            "type": "module"
-            , "name": "node-module"
-            , "include": {
-                "post-assemble": 0
-            }
-            , "module": {
-                "statements": {
-                    "beginning": [
-                        "var xmlHttpRequest = null"
-                        , ", performance = null"
-                        , ", origin = null"
-                        , ", node_path = require(\"path\")"
-                        , ", node_fs = require(\"fs\")"
-                        , ";"
-                    ]
-                }
-            }
-            , "config": {
-                "fileName": "${namePrefix}-${config.engine}.js"
-                , "engine": "node"
-                , "export": "controller"
-            }
-        }
+        "./manifests/base.manifest.json"
+        , "./manifests/node.manifest.json"
         , {
             "type": "test"
             , "name": "test-package"
@@ -81,34 +14,11 @@
                 "module": -1
             }
             , "config": {
-                "fileName": "${namePrefix}-${config.engine}.testpkg.json"
+                "fileName": "${iocNamePrefix}-${config.engine}.testpkg.json"
                 , "engine": "node"
             }
         }
-        , {
-            "type": "module"
-            , "name": "browser-module"
-            , "include": {
-                "post-assemble": 0
-            }
-            , "module": {
-                "statements": {
-                    "beginning": [
-                        "var xmlHttpRequest = XMLHttpRequest"
-                        , ", origin = null"
-                        , ", process = null"
-                        , ", node_path = null"
-                        , ", node_fs = null"
-                        , ";"
-                    ]
-                }
-            }
-            , "config": {
-                "engine": "browser"
-                , "fileName": "${namePrefix}-${config.engine}.js"
-                , "export": "controller"
-            }
-        }
+        , "./manifests/browser.manifest.json"
         , {
             "type": "test"
             , "name": "test-package"
@@ -117,7 +27,7 @@
             }
             , "config": {
                 "engine": "browser"
-                , "fileName": "${namePrefix}-${config.engine}.testpkg.json"
+                , "fileName": "${iocNamePrefix}-${config.engine}.testpkg.json"
             }
         }
     ]
