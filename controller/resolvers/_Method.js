@@ -129,9 +129,7 @@ function _Method(
     *   @async
     */
     function bindOwnerToMethod(abstractEntry, argsAndOwner) {
-        var owner = argsAndOwner.pop()
-            .value
-        , args = argsAndOwner
+        var owner = argsAndOwner[argsAndOwner.length - 1].value
         , method = owner[abstractEntry.methodName]
         ;
 
@@ -142,7 +140,7 @@ function _Method(
         }
 
         return Promise.resolve({
-            "value": method.bind(owner, args)
+            "value": Function.prototype.bind.apply(method, argsAndOwner)
         });
     }
 }
