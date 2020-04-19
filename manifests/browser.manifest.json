@@ -1,0 +1,29 @@
+{
+    "entries": [
+        {
+            "type": "module"
+            , "name": "browser-ioc-controller"
+            , "include": {
+                "post-assemble": ["base-ioc-controller"]
+            }
+            , "module": {
+                "statements": {
+                    "beginning": [
+                        "var xmlHttpRequest = XMLHttpRequest"
+                        , ", browser_performance = performance"
+                        , ", timing_origin = Date.now()"
+                        , ", node_process = null"
+                        , ", node_path = null"
+                        , ", node_fs = null"
+                        , ";"
+                    ]
+                }
+            }
+            , "moduleExport": "controller"
+            , "config": {
+                "engine": "browser"
+                , "fileName": "${iocNamePrefix}-${config.engine}.js"
+            }
+        }
+    ]
+}

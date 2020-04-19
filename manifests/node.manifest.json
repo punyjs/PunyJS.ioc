@@ -1,0 +1,29 @@
+{
+    "entries": [
+        {
+            "type": "module"
+            , "name": "node-ioc-controller"
+            , "include": {
+                "post-assemble": ["base-ioc-controller"]
+            }
+            , "module": {
+                "statements": {
+                    "beginning": [
+                        "var xmlHttpRequest = null"
+                        , ", browser_performance = null"
+                        , ", timing_origin = Date.now()"
+                        , ", node_process = process"
+                        , ", node_path = require(\"path\")"
+                        , ", node_fs = require(\"fs\")"
+                        , ";"
+                    ]
+                }
+            }
+            , "moduleExport": "controller"
+            , "config": {
+                "engine": "node"
+                , "fileName": "${iocNamePrefix}-${config.engine}.js"
+            }
+        }
+    ]
+}

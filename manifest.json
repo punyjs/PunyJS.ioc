@@ -1,0 +1,34 @@
+{
+    "namespace": "TruJS.ioc.controller"
+    , "iocNamePrefix": "ioc-controller"
+    , "config": {
+        "strict": true
+    }
+    , "entries": [
+        "./manifests/base.manifest.json"
+        , "./manifests/node.manifest.json"
+        , {
+            "type": "test"
+            , "name": "test-package"
+            , "units": {
+                "module": -1
+            }
+            , "config": {
+                "fileName": "${iocNamePrefix}-${config.engine}.testpkg.json"
+                , "engine": "node"
+            }
+        }
+        , "./manifests/browser.manifest.json"
+        , {
+            "type": "test"
+            , "name": "test-package"
+            , "units": {
+                "module": -1
+            }
+            , "config": {
+                "engine": "browser"
+                , "fileName": "${iocNamePrefix}-${config.engine}.testpkg.json"
+            }
+        }
+    ]
+}
