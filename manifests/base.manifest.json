@@ -11,6 +11,7 @@
                 , "{TruJS.core}/data/_IdGenerator.js"
                 , "{TruJS.core}/log/_ProcessDetails.js"
                 , "{TruJS.core}/is/Object.js"
+                , "{TruJS.core}/is/Array.js"
                 , "{TruJS.core}/log/_Reporter.js"
                 , "{TruJS.ioc}/_Namespace.js"
                 , "{TruJS.ioc}/_NamespaceParser.js"

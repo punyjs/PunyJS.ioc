@@ -195,7 +195,11 @@ function _Controller(
                     //execute the dependency resolver, which should return a promise
                     return dependencyController.resolve(
                         namespace
-                    );
+                    )
+                    //then get the resulting value for the dependency
+                    .then(function returnResultingValue(dep) {
+                        return Promise.resolve(dep.value);
+                    });
                 }
             }
             /**
@@ -219,11 +223,15 @@ function _Controller(
                         args = [args];
                     }
                     //execute the factory runner
-                    return dependencyController.resolve(
+                    dependencyController.resolve(
                         namespace
                         , args
                         , options
-                    );
+                    )
+                    //then get the resulting value for the dependency
+                    .then(function returnResultingValue(dep) {
+                        return Promise.resolve(dep.value);
+                    });
                 }
             }
             /**
@@ -243,7 +251,9 @@ function _Controller(
                         var fn = resolvedEntry.value;
                         if (typeof fn !== "function") {
                             return Promise.reject(
-                                new Error(`${errors.invalid_run} (${typeof fn})`)
+                                new Error(
+                                    `${errors.invalid_run} (${typeof fn})`
+                                )
                             );
                         }
                         return Promise.resolve(fn.apply(null, args));
@@ -260,7 +270,9 @@ function _Controller(
     function validateNamespace(namespace) {
         //ensure that the namespace is a string
         if (typeof namespace !== "string") {
-            throw new Error(`${errors.invalid_concrete_abstract_namespace} (${namespace})`);
+            throw new Error(
+                `${errors.invalid_concrete_abstract_namespace} (${namespace})`
+            );
         }
     }
 }
