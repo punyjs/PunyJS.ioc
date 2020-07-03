@@ -2,8 +2,8 @@
 * Uses an external dependency tree, in dependency notation, to create an
 * abstract dependency tree, by adding a {iAbstractEntry} object for each entry in the tree..
 * @factory
-*   @dependency dependencyNotationTranslator TruJS.ioc._DependencyNotationTranslator
-*   @dependency errors TruJS.ioc.Errors
+*   @dependency dependencyNotationTranslator PunyJS.ioc._DependencyNotationTranslator
+*   @dependency errors PunyJS.ioc.Errors
 *   @utility
 *   @singleton
 * @naming

@@ -1,9 +1,9 @@
 /**
 * @factory
-*   @dependency dependencyNotationTranslator TruJS.ioc._DependencyNotationTranslator
-*   @dependency errors TruJS.ioc.Errors
-*   @dependency reporter TruJS.core.log._Reporter
-*   @dependency reporter TruJS.ioc._ProcessDetails
+*   @dependency dependencyNotationTranslator PunyJS.ioc._DependencyNotationTranslator
+*   @dependency errors PunyJS.ioc.Errors
+*   @dependency reporter PunyJS.core.log._Reporter
+*   @dependency reporter PunyJS.ioc._ProcessDetails
 * @naming
 *   @alias resolvers.factory
 */

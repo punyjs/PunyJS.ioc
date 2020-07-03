@@ -11,7 +11,7 @@
     , "invalid_abstract_namespace": "[Invalid Abstract Namespace] The abstract namespace should follow dependency notation."
     , "invalid_concrete_abstract_namespace": "[Invalid Concrete or Abstract Namespace] The namespace value should be restricted to concrete or abstract types; based on dependency notation."
     , "abstract_dependency_exists": "[Abstract Dependency Exists] The abstract dpendency at this namespace already exists."
-    , "invalid_namespace": "[Invalid Namespace] The namespace must follow the TruJS.ioc.Namespace specification."
+    , "invalid_namespace": "[Invalid Namespace] The namespace must follow the PunyJS.ioc.Namespace specification."
     , "invalid_path": "[Invalid Path] The path must be a string in dot notation."
     , "invalid_owner": "[Invalid Owner] The owner must be an object; the owner of the method."
     , "invalid_method": "[Invalid Method] The method property name must point to a function."

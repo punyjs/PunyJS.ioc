@@ -1,7 +1,7 @@
 /**
 * @factory
-*   @dependency reporter TruJS.core.log._Reporter
-*   @dependency reporter TruJS.ioc._ProcessDetails
+*   @dependency reporter PunyJS.core.log._Reporter
+*   @dependency reporter PunyJS.ioc._ProcessDetails
 * @naming
 *   @alias resolvers.literal
 */

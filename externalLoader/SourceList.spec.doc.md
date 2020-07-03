@@ -20,15 +20,15 @@ The `iSource` interface describes an endpoint at `endpointUri`, which uses `type
 [
     {
         "endpointType": "http"
-        , "endpointUri": "https://trujs,geekshake.com"
-        , "namespace": "F80F:TruJS.gui.comps.layout.1.1"
-        , "description": "Use version 1.1 for anything in the TruJS.gui.comps.layout namespace."
+        , "endpointUri": "https://punyjs,geekshake.com"
+        , "namespace": "F80F:PunyJS.gui.comps.layout.1.1"
+        , "description": "Use version 1.1 for anything in the PunyJS.gui.comps.layout namespace."
     }
     , {
         "endpointType": "socket"
-        , "endpointUri": "https://trujs,geekshake.com"
-        , "namespace": "F80F:TruJS.gui.comps.1.0+3008"
-        , "description": "Use version 1.0 at build 3008 for the rest of the TruJS.gui.comps namespace."
+        , "endpointUri": "https://punyjs,geekshake.com"
+        , "namespace": "F80F:PunyJS.gui.comps.1.0+3008"
+        , "description": "Use version 1.0 at build 3008 for the rest of the PunyJS.gui.comps namespace."
     }
     , {
         "endpointType": "http"

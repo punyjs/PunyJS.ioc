@@ -1,5 +1,5 @@
 {
-    "namespace": "TruJS.ioc.controller"
+    "namespace": "PunyJS.ioc.controller"
     , "iocNamePrefix": "ioc-controller"
     , "config": {
         "strict": true

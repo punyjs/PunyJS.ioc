@@ -1,8 +1,8 @@
 /**
 * @factory
-*   @dependency offlineStorage TruJS.ioc.controller._OfflineStorage
-*   @dependency externalLoader TruJS.ioc.externalLoader._ExternalLoader
-*   @dependency errors TruJS.ioc.Errors
+*   @dependency offlineStorage PunyJS.ioc.controller._OfflineStorage
+*   @dependency externalLoader PunyJS.ioc.externalLoader._ExternalLoader
+*   @dependency errors PunyJS.ioc.Errors
 *   @singleton
 *   @utility
 * @naming

@@ -2,12 +2,12 @@
 * The controller provides an API for loading the IOC container and abstract
 * dependency tree, resolving dependencies, and executing factory functions.
 * @factory
-*   @dependency dependencyController TruJS.ioc._dependencyController
-*   @dependency offlineStorage TruJS.ioc._OfflineStorage
-*   @dependency abstractTree TruJS.ioc._AbstractTree
-*   @dependency externalLoader TruJS.ioc._ExternalLoader
-*   @dependency reporter TruJS.core.log._Reporter
-*   @dependency defaults TruJS.ioc.Defaults
+*   @dependency dependencyController PunyJS.ioc._dependencyController
+*   @dependency offlineStorage PunyJS.ioc._OfflineStorage
+*   @dependency abstractTree PunyJS.ioc._AbstractTree
+*   @dependency externalLoader PunyJS.ioc._ExternalLoader
+*   @dependency reporter PunyJS.core.log._Reporter
+*   @dependency defaults PunyJS.ioc.Defaults
 *   @utility
 *   @singleton
 * ---

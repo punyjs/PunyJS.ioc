@@ -1,8 +1,8 @@
 /**
 * @factory
-*   @dependency errors TruJS.ioc.Errors
-*   @dependency reporter TruJS.core.log._Reporter
-*   @dependency reporter TruJS.ioc._ProcessDetails
+*   @dependency errors PunyJS.ioc.Errors
+*   @dependency reporter PunyJS.core.log._Reporter
+*   @dependency reporter PunyJS.ioc._ProcessDetails
 * @naming
 *   @alias resolvers.bind
 */

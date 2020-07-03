@@ -1,11 +1,11 @@
 /**
 * Finds the dependency for the {iAbstractEntry} `depEntry`
 * @factory
-*   @dependency abstractTree TruJS.ioc._AbstractTree
+*   @dependency abstractTree PunyJS.ioc._AbstractTree
 *   @dependency resolvers A collection of abstract entry resolvers
-*   @dependency errors TruJS.ioc.Errors
-*   @dependency reporter TruJS.core.log._Reporter
-*   @dependency reporter TruJS.ioc._ProcessDetails
+*   @dependency errors PunyJS.ioc.Errors
+*   @dependency reporter PunyJS.core.log._Reporter
+*   @dependency reporter PunyJS.ioc._ProcessDetails
 *   @utility
 *   @singleton
 * ---

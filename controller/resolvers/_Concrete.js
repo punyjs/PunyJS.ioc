@@ -1,10 +1,10 @@
 /**
 * @factory
-*   @dependency errors TruJS.ioc.Errors
-*   @dependency dependencyLoader TruJS.ioc._DependencyLoader
-*   @dependency dependencyNotationTranslator TruJS.ioc._DependencyNotationTranslator
-*   @dependency reporter TruJS.core.log._Reporter
-*   @dependency reporter TruJS.ioc._ProcessDetails
+*   @dependency errors PunyJS.ioc.Errors
+*   @dependency dependencyLoader PunyJS.ioc._DependencyLoader
+*   @dependency dependencyNotationTranslator PunyJS.ioc._DependencyNotationTranslator
+*   @dependency reporter PunyJS.core.log._Reporter
+*   @dependency reporter PunyJS.ioc._ProcessDetails
 * @naming
 *   @alias resolvers.concrete
 */

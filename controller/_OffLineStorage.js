@@ -1,9 +1,9 @@
 /**
 *
 * @factory
-*   @dependency reporter TruJS.core.log._Reporter
-*   @dependency errors TruJS.ioc.Errors
-*   @dependency defaults TruJS.ioc.Defaults
+*   @dependency reporter PunyJS.core.log._Reporter
+*   @dependency errors PunyJS.ioc.Errors
+*   @dependency defaults PunyJS.ioc.Defaults
 *   @singleton
 *   @utility
 * @naming
