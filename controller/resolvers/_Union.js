@@ -187,7 +187,9 @@ function _Union (
                     return true;
                 }
                 else if (
-                    typeof merged[key] === "object"
+                    !!merged[key]
+                    && typeof merged[key] === "object"
+                    && !!objB[key]
                     && typeof objB[key] === "object"
                 ) {
                      merged[key] = merge(

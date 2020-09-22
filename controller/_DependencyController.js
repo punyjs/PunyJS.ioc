@@ -70,6 +70,16 @@ function _DependencyController(
             "value": function setAbstractTree(tree) {
                 //initialize the tree
                 abstractTree.setTree(tree);
+                //set the global on the tree
+                //set the global
+                if (!!global) {
+                    abstractTree.upsertNode(
+                        {
+                            "path": "global"
+                            , "value" : global
+                        }
+                    );
+                }
             }
         }
         /**
@@ -86,12 +96,19 @@ function _DependencyController(
             }
         }
         /**
-        * Sets the global
+        * Sets the global value used when resolving eval entries
         * @property
         */
         , "setGlobal": {
             "value": function setGlobal(glbl) {
                 global = glbl;
+                //set the global on the tree
+                abstractTree.upsertNode(
+                    {
+                        "path": "global"
+                        , "value" : global
+                    }
+                );
             }
         }
         /**
@@ -420,8 +437,10 @@ function _DependencyController(
             abstractEntry.namespace
             , "_DependencyController.resolveEntry"
             , parentProcDetails
-        );
-
+        )
+        , handleKey =
+            `${abstractEntry.type}-${abstractEntry.namespace}`
+        ;
         //see if this dependency has already been resolved
         if (abstractEntry.isResolved) {
             /// LOGGING
@@ -434,24 +453,23 @@ function _DependencyController(
                 abstractEntry.value
             );
         }
-
         //if we have a namespace let's add a resolve handle in case there are multiple requests for the same namespace
         if (!!abstractEntry.namespace) {
             //if there isn't an entry in the wait handle collection, create one
-            if (!resolveHandles.hasOwnProperty(abstractEntry.namespace)) {
-                resolveHandles[abstractEntry.namespace] = [];
+            if (!resolveHandles.hasOwnProperty(handleKey)) {
+                resolveHandles[handleKey] = [];
             }
             //if there is, then we are already resolving this and should add a wait handle
             else {
                 return new Promise(function thenWaitForResolve(resolve, reject) {
                     /// LOGGING
                     reporter.ioc(
-                        `Waiting for Resolution: ${abstractEntry.namespace}`
+                        `Waiting for Resolution: ${handleKey}`
                         , procDetails
                     );
                     /// END LOGGING
                     //add this promise to the waiter
-                    resolveHandles[abstractEntry.namespace]
+                    resolveHandles[handleKey]
                         .push([
                             resolve
                             , reject
@@ -487,8 +505,8 @@ function _DependencyController(
         return proc
         .then(function returnResolved(resolvedEntry) {
             //get the handles and remove the handles object for this namespace
-            var handles = resolveHandles[abstractEntry.namespace];
-            delete resolveHandles[abstractEntry.namespace];
+            var handles = resolveHandles[handleKey];
+            delete resolveHandles[handleKey];
             //finalize this first entry
             finalizeEntry(abstractEntry, resolvedEntry);
             //return the resolved value as well as start resolving the handles
@@ -504,8 +522,8 @@ function _DependencyController(
         })
         .catch(function catchException(err) {
             //get the handles and remove the handles object for this namespace
-            var handles = resolveHandles[abstractEntry.namespace];
-            delete resolveHandles[abstractEntry.namespace];
+            var handles = resolveHandles[handleKey];
+            delete resolveHandles[handleKey];
             //return the rejected error
             return Promise.race([
                 Promise.reject(err)

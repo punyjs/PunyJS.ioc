@@ -240,7 +240,7 @@ function _DependencyNotationTranslator(
     * @function
     */
     function apply(source, target) {
-        if (typeof source === "object") {
+        if (!!source && typeof source === "object") {
             Object.keys(source)
                 .forEach(function forEachKey(key) {
                     if (!target.hasOwnProperty(key)) {

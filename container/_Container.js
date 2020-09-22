@@ -27,7 +27,7 @@
 *   @property {object} options
 */
 function _Container(
-
+    globalRedeclarationList
 ) {
     /**
     * A collection of errors
@@ -49,66 +49,15 @@ function _Container(
         "children": {}
     }
     /**
-    * A list of global properties that will be hidden from dependencies
-    * @property
-    * @private
-    */
-    , globals = [
-        "window"
-        , "document"
-        , "alert"
-        , "Function"
-        , "XMLHttpRequest"
-    ]
-    /**
     * A collection of namespaces with refernces to their value
     * @property
     * @private
     */
     , namespaces = {}
     /**
-    * A reference to the worker object
-    * @property
-    * @private
-    */
-    , self
-    /**
-    * A regex pattern for validating global names
-    * @property
-    */
-    , GLBL_NM_PATT = /^[A-z$_][A-z0-9_$]*$/;
-
-    /**
     * @worker
     */
-    return self = Object.create(null, {
-        /**
-        * Adds one or more global property names to the globals list for hiding.
-        * @property
-        */
-        "hideGlobal": {
-            "enumerable": true
-            , "value": function hideGlobal(names) {
-                if (!Array.isArray(names)) {
-                    names = [names];
-                }
-
-                //loop through the names and add them to the list
-                names.forEach(function forEachName(name) {
-                    //validate it's a simple name (don't want injection attacks)
-                    if (!GLBL_NM_PATT.test(name)) {
-                        throw new Error(errors.illegal_global);
-                    }
-                    //if the name isn't already in the list then add it
-                    if (globals.indexOf(name) === -1) {
-                        globals.push(name);
-                    }
-                });
-
-                //return this for chaining
-                return self;
-            }
-        }
+    , self = Object.create(null, {
         /**
         * Registers the namespace and resolved value in the root container.
         * @method
@@ -118,11 +67,11 @@ function _Container(
         *   for the concrete value. If a boolean value, a default options object is
         *   created and the boolean value is used for the overwrite property.
         */
-        , "register": {
+        "register": {
             "enumerable": true
             , "value": function register(namespace, value, options = true) {
                 //if namespace is an object
-                if (typeof namespace === "object") {
+                if (!!namespace && typeof namespace === "object") {
                     value = namespace.value;
                     options = namespace.options;
                     namespace = namespace.namespace;
@@ -242,7 +191,10 @@ function _Container(
                 return createMetaData(path);
             }
         }
-    });
+    })
+    ;
+
+    return self;
 
     /**
     * Checks if a namespace already exists
@@ -328,28 +280,21 @@ function _Container(
     */
     function resolveValue(value) {
         try {
-            return Function(
-                `
-                "use strict";
-                var ${hideGlobals()};
-                return ${value};
-                `
-            )();
+            var funcArgs =
+                globalRedeclarationList //function arguments will redeclare the global variables to undefined
+                .concat(//the body
+                    `"use strict";\n${value}`
+                )
+            //create the function
+            , func = Function(
+                funcArgs
+            );
+            //execute the function
+            return func();
         }
         catch(ex) {
             return ex;
         }
-    }
-    /**
-    * @function
-    */
-    function hideGlobals() {
-        return globals
-            .map(function mapGlobal(name) {
-                return name + " = null";
-            })
-            .join(", ")
-        ;
     }
     /**
     * @function

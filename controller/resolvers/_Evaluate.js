@@ -17,7 +17,13 @@ function _Evaluate(
     var cnsts = {
         "nodeModuleError": /Error: Cannot find module '(.*)'/
         , "moduleErrorMsg": "A required node module is missing "
-    };
+    }
+    /**
+    * A regular expression pattern for parsing global expressions
+    * @property
+    */
+    , EXPR_PATT = /^([A-z$_][A-z0-9$_]+)[ \t\r\n]*((?:\()|(?:[.])|(?:[=]{2,3})|$)/
+    ;
 
     /**
     * Evaluates the expression within the global scope
@@ -70,14 +76,37 @@ function _Evaluate(
     */
     function evaluateExpression(global, abstractEntry) {
         try {
-            var funcParamNames =
-                Object.keys(global)
-                .concat(`return ${abstractEntry.expression};`)
-            , funcArgs = Object.values(global)
-            //Construct a Function to evaluate the expression
-            , result =
-                Function.apply(null, funcParamNames)
-                .apply(null, funcArgs);
+            //parse the evaluate expression
+            var match = abstractEntry.expression.match(EXPR_PATT)
+            , globalKey
+            , exprfunc
+            , result
+            ;
+            if (!match) {
+                return Promise.reject(
+                    new Error(
+                        `${errors.invalid_evaluate_expression} (${abstractEntry.expression})`
+                    )
+                );
+            }
+            //validate the root global key
+            globalKey = match[1];
+            if (!global.hasOwnProperty(globalKey)) {
+                return Promise.reject(
+                    new Error(
+                        `${errors.missing_global_property} (${globalKey})`
+                    )
+                );
+            }
+            //create a function to evaluate the expression
+            exprfunc = Function(
+                globalKey
+                , `return ${abstractEntry.expression};`
+            );
+            //execute the function
+            result = exprfunc(
+                global[globalKey] //pass the single global property
+            );
 
             return Promise.resolve(result);
         }
