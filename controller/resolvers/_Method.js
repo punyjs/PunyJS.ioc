@@ -82,7 +82,7 @@ function _Method(
         var owner = ownerResolvedEntry.value
         , method = owner[methodName];
 
-        if (typeof owner !== "object") {
+        if (typeof owner !== "object" && typeof owner !== "function") {
             return Promise.reject(
                 new Error(`${errors.invalid_owner} (${ownerResolvedEntry.type})`)
             );
