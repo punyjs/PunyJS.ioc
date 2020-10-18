@@ -95,6 +95,12 @@ function _Factory(
             //add the dependencies
             procs = dependencies
                 .map(function mapDep(depEntry) {
+                    /**
+                    * @feature $self
+                    */
+                    if (depEntry.namespace === "$self") {
+                        return resolvedEntry;
+                    }
                     return dependencyResolver(
                         depEntry
                         , procDetails
