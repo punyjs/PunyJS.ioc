@@ -122,7 +122,7 @@ function _DependencyController(
                 //make sure we've got a proper namespace
                 //create a dependency entry
                 var depEntry = getDependencyEntry(
-                    namespace
+                    [namespace]
                 );
                 //based on the abstract entry's type
                 //if it's abstract then check that the abstract namespace exists in the abstract tree
@@ -151,17 +151,18 @@ function _DependencyController(
         */
         , "add": {
             "enumerable": true
-            , "value": function add(namespace, value
-            , options) {
-                //make sure we've got a proper namespace
+            , "value": function add(namespace, value, upsert = false) {
                 //create a dependency entry
                 var depEntry = getDependencyEntry(
-                    namespace
+                    [namespace]
                 );
 
                 if (depEntry.type === "abstract") {
                     if (
-                        abstractTree.hasNode(namespace.substring(1))
+                        !upsert
+                        && abstractTree.hasNode(
+                            namespace.substring(1)
+                        )
                     ) {
                         throw new Error(
                             `${errors.abstract_dependency_exists} ('${namespace}')`
@@ -172,15 +173,29 @@ function _DependencyController(
                         , "value": value
                     });
                 }
-
-                if (depEntry.type === "concrete") {
+                else if (depEntry.type === "concrete") {
+                    if (
+                        !upsert
+                        && container.hasNamespace(
+                            namespace.substring(1)
+                        )
+                    ) {
+                        throw new Error(
+                            `${errors.concrete_dependency_exists} ('${namespace}')`
+                        );
+                    }
                     //add this value to the container
                     container
                         .set(
                             depEntry.namespace
-                            , values
+                            , value
                             , options
                         );
+                }
+                else {
+                    throw new Error(
+                        `${errors.invalid_upsert_type} (${depEntry.type})`
+                    );
                 }
             }
         }
@@ -194,30 +209,12 @@ function _DependencyController(
         */
         , "upsert": {
             "enumerable": true
-            , "value": function upsertEntry(namespace, value, options) {
-                //make sure we've got a proper namespace
-                //create a dependency entry
-                var depEntry = getDependencyEntry(
+            , "value": function upsertEntry(namespace, value) {
+                return self.add(
                     namespace
+                    , value
+                    , true
                 );
-
-                if (depEntry.type === "abstract") {
-                    //add this value to the abstract tree
-                    abstractTree
-                        .upsertNode({
-                            "path": depEntry.namespace
-                            , "value": value
-                        });
-                }
-                if (depEntry.type === "concrete") {
-                    //add this value to the container
-                    container
-                        .set(
-                            depEntry.namespace
-                            , values
-                            , options
-                        );
-                }
             }
         }
         /**
@@ -226,14 +223,12 @@ function _DependencyController(
         *   @param {string} namespace A namespace in dependency notation
         */
         , "resolve": {
-            "value": function resolve(namespace, args, options) {
-                //make sure we've got a proper namespace
+            "value": function resolve(extEntry) {
                 //create a dependency entry
                 var depEntry = getDependencyEntry(
-                    namespace
-                    , args
-                    , options
+                    extEntry
                 );
+                ///LOGGING
                 //start a process details chain
                 var procDetails = processDetails(
                     depEntry.namespace
@@ -243,6 +238,7 @@ function _DependencyController(
                     `Resolve Entry: ${procDetails.name}`
                     , procDetails
                 );
+                ///END LOGGING
                 //resolve the entry
                 return resolveEntry(
                     depEntry
@@ -250,10 +246,12 @@ function _DependencyController(
                 )
                 //then record the result
                 .then(function thenReportComplete(result) {
+                    ///LOGGING
                     reporter.ioc(
                         `Dependency Completely Resolved: ${procDetails.namespace || procDetails.name}`
                         , procDetails
                     );
+                    ///END LOGGING
                     return Promise.resolve(result);
                 });
             }
@@ -382,33 +380,24 @@ function _DependencyController(
                 }
             }
         }
+        /**
+        * Converts an external dependency entry in dependency notation into a dependency entry
+        * @method
+        *   @param {string} entry An array representing an entry in dependency notation
+        */
+        , "translate": {
+            "value": dependencyNotationTranslator
+        }
     });
     /**
     * Validates the string namespace and if it's valid, creates a dependency entry for it
     * @function
     */
-    function getDependencyEntry(namespace) {
-        //make sure we've got a proper namespace
-        validateNamespace(namespace);
-        //create a dependency entry
-        return dependencyNotationTranslator(
-            [namespace]
+    function getDependencyEntry(extEntry) {
+        var depEntry = dependencyNotationTranslator(
+            extEntry
         );
-    }
-    /**
-    * Ensures the namespace is a string in dependency notation
-    * @function
-    */
-    function validateNamespace(namespace) {
-        //ensure that the namespace is a string
-        if (typeof namespace !== "string") {
-            throw new Error(`${errors.invalid_concrete_abstract_namespace} (${namespace})`);
-        }
-        if (namespace[0] !== "."
-            && namespace[0] !== ":"
-            && namespace[0] !== "+") {
-            throw new Error(`${errors.invalid_concrete_abstract_namespace} (${namespace})`);
-        }
+        return depEntry;
     }
     /**
     * Locates the abstract namespace on the tree and determines it's concrete namespace
@@ -432,12 +421,14 @@ function _DependencyController(
     * @functiong
     */
     function resolveEntry(abstractEntry, parentProcDetails) {
-        //create the process detilas for this resolution
+        ///LOGGING
+        //create the process details for this resolution
         var procDetails = processDetails(
             abstractEntry.namespace
             , "_DependencyController.resolveEntry"
             , parentProcDetails
         )
+        ///END LOGGING
         , handleKey =
             `${abstractEntry.type}-${abstractEntry.namespace}`
         ;
@@ -487,10 +478,11 @@ function _DependencyController(
         );
 
         //perform any bind operations
-        if (abstractEntry.type !== "method"
+        if (
+            abstractEntry.type !== "method"
             && !!abstractEntry.options
-            && abstractEntry.options.hasOwnProperty("bind"))
-        {
+            && abstractEntry.options.hasOwnProperty("bind")
+        ) {
             proc = proc.then(function thenExecuteBind(resolvedEntry) {
                 return resolvers.bind(
                     abstractEntry
