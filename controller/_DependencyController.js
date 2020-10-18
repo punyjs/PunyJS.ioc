@@ -89,7 +89,7 @@ function _DependencyController(
         , "setContainer": {
             "value": function setContainer(cnt) {
                 if (!!container) {
-                    throw new Error(errors.container_set);
+                    throw new Error(errors.ioc.container_set);
                 }
                 //TODO: validate that it is a container
                 container = cnt;
@@ -165,7 +165,7 @@ function _DependencyController(
                         )
                     ) {
                         throw new Error(
-                            `${errors.abstract_dependency_exists} ('${namespace}')`
+                            `${errors.ioc.abstract_dependency_exists} ('${namespace}')`
                         );
                     }
                     abstractTree.upsertNode({
@@ -181,7 +181,7 @@ function _DependencyController(
                         )
                     ) {
                         throw new Error(
-                            `${errors.concrete_dependency_exists} ('${namespace}')`
+                            `${errors.ioc.concrete_dependency_exists} ('${namespace}')`
                         );
                     }
                     //add this value to the container
@@ -194,7 +194,7 @@ function _DependencyController(
                 }
                 else {
                     throw new Error(
-                        `${errors.invalid_upsert_type} (${depEntry.type})`
+                        `${errors.ioc.invalid_upsert_type} (${depEntry.type})`
                     );
                 }
             }
@@ -300,7 +300,7 @@ function _DependencyController(
                 //we can't reset evals
                 if (depEntry.type === "eval") {
                     throw new Error(
-                        `${errors.no_reset_eval} ('${namespace}')`
+                        `${errors.ioc.no_reset_eval} ('${namespace}')`
                     );
                 }
 
@@ -321,7 +321,7 @@ function _DependencyController(
                     }
                     else {
                         throw new Error(
-                            `${errors.missing_abstract_namespace} ('${namespace}')`
+                            `${errors.ioc.missing_abstract_namespace} ('${namespace}')`
                         );
                     }
                 }
@@ -346,7 +346,7 @@ function _DependencyController(
                 //we can't reload evals
                 if (depEntry.type === "eval") {
                     throw new Error(
-                        `${errors.no_reset_eval} ('${namespace}')`
+                        `${errors.ioc.no_reset_eval} ('${namespace}')`
                     );
                 }
 
@@ -363,7 +363,7 @@ function _DependencyController(
                     }
                     else {
                         throw new Error(
-                            `${errors.missing_abstract_namespace} ('${namespace}')`
+                            `${errors.ioc.missing_abstract_namespace} ('${namespace}')`
                         );
                     }
                 }
@@ -608,7 +608,7 @@ function _DependencyController(
         /// END LOGGING
         //if we made it here it's a bad type
         return Promise.reject(
-            new Error(`${errors.invalid_entry_type} ("${abstractEntry.type}")`)
+            new Error(`${errors.ioc.invalid_entry_type} ("${abstractEntry.type}")`)
         );
     }
     /**

@@ -84,13 +84,13 @@ function _Method(
 
         if (typeof owner !== "object" && typeof owner !== "function") {
             return Promise.reject(
-                new Error(`${errors.invalid_owner} (${ownerResolvedEntry.type})`)
+                new Error(`${errors.ioc.invalid_owner} (${ownerResolvedEntry.type})`)
             );
         }
 
         if (typeof method !== "function") {
             return Promise.reject(
-                new Error(`${errors.invalid_method} (${typeof method})`)
+                new Error(`${errors.ioc.invalid_method} (${typeof method})`)
             );
         }
 
@@ -135,7 +135,7 @@ function _Method(
 
         if (typeof method !== "function") {
             return Promise.reject(
-                new Error(`${errors.invalid_method} (${typeof method})`)
+                new Error(`${errors.ioc.invalid_method} (${typeof method})`)
             );
         }
 

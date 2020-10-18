@@ -68,7 +68,7 @@ function _Abstract(
             //if we made it here then the abstract entry doesn't exist, bad news
             return Promise.reject(
                 new Error(
-                    `${errors.missing_abstract_namespace} ("${abstractEntry.namespace}")`
+                    `${errors.ioc.missing_abstract_namespace} ("${abstractEntry.namespace}")`
                 )
             );
         });

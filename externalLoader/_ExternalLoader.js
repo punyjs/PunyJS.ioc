@@ -91,10 +91,10 @@ function _ExternalLoader(
             "value": function load(namespaces) {
                 ///INPUT VALIDATION
                 if (!sourceList) {
-                    throw new Error(`${errors.missing_source_list}`);
+                    throw new Error(`${errors.ioc.missing_source_list}`);
                 }
                 if (!namespaces) {
-                    throw new Error(`${errors.invalid_namespace} (${typeof namespaces})`);
+                    throw new Error(`${errors.ioc.invalid_namespace} (${typeof namespaces})`);
                 }
                 if (!Array.isArray(namespaces)) {
                     namespaces = [namespaces];
@@ -118,7 +118,7 @@ function _ExternalLoader(
             var source = sourceFinder(sourceList, nsObj);
             if (!source) {
                 throw new Error(
-                    `${errors.source_not_found} (${nsObj})`
+                    `${errors.ioc.source_not_found} (${nsObj})`
                 );
             }
             if (sources.indexOf(source) === -1) {
@@ -166,7 +166,7 @@ function _ExternalLoader(
         var loader = loaders[source.endpointType];
         if (!loader) {
             throw new Error(
-                `${errors.invalid_source_endpoint_type} (${source.endpointType})`
+                `${errors.ioc.invalid_source_endpoint_type} (${source.endpointType})`
             );
         }
         return loader(source);

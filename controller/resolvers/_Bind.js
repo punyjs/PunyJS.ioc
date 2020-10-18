@@ -35,7 +35,7 @@ function _Bind(
             var bindObj = abstractEntry.options.bind;
             if (typeof bindObj !== "object" || Array.isArray(bindObj)) {
                 reject(
-                    `${errors.invalid_bind_option} (${abstractEntry.options.bind})`
+                    `${errors.ioc.invalid_bind_option} (${abstractEntry.options.bind})`
                 );
             }
             resolve();
@@ -124,7 +124,7 @@ function _Bind(
         //we can't bind a non-function value
         if (typeof fn !== "function") {
             return Promise.reject(
-                new Error(`${errors.invalid_bind_func} (${typeof fn})`)
+                new Error(`${errors.ioc.invalid_bind_func} (${typeof fn})`)
             );
         }
         return Promise.resolve(fn);

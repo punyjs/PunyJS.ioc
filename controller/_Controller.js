@@ -22,6 +22,7 @@ function _Controller(
     , consumerReference
     , reporter
     , defaults
+    , errors
 ) {
     /**
     * A reference to the worker object so `this` can be avoided
@@ -209,7 +210,7 @@ function _Controller(
                 , "value": function run(...args) {
                     //execute the run dependency
                     return dependencyController.resolve(
-                        [`.${defaults.runDependencyName}`]
+                        [`.${defaults.ioc.runDependencyName}`]
                     )
                     //then execute the resulting run worker function
                     .then(function thenRunWorker(resolvedEntry) {
@@ -217,7 +218,7 @@ function _Controller(
                         if (typeof fn !== "function") {
                             return Promise.reject(
                                 new Error(
-                                    `${errors.invalid_run} (${typeof fn})`
+                                    `${errors.ioc.invalid_run} (${typeof fn})`
                                 )
                             );
                         }

@@ -4,7 +4,7 @@
 *   @alias sourceFinder
 */
 function _SourceFinder(
-    defaults
+    
 ) {
 
     /**

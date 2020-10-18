@@ -76,7 +76,7 @@ function _ConsumerReference(
                     return consumerReferences[refKey];
                 }
 
-                throw new Error(`${errors.missing_consumer} (${nsObj.fqns})`);
+                throw new Error(`${errors.ioc.missing_consumer} (${nsObj.fqns})`);
             }
         }
     });

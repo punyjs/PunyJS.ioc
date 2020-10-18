@@ -4,7 +4,7 @@
 *   @alias namespaceProto
 */
 function _Namespace(
-
+    defaults
 ) {
     /**
     * A reference to the worker object
@@ -88,7 +88,7 @@ function _Namespace(
         //if the owners don't match and the nsObj is not the default owner
         if (
             nsOwner === sourceOwner
-            || nsOwner === defaults.defaultOwner
+            || nsOwner === defaults.ioc.defaultOwner
         ) {
             return true;
         }

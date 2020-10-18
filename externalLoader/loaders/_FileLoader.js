@@ -6,7 +6,6 @@
 function _FileLoader(
     node_path
     , node_fs
-    , defaults
 ) {
 
     /**

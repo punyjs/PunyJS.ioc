@@ -60,15 +60,15 @@ function _OfflineStorage(
         * Sets the internally used database management system
         * @method
         *   @param {object} dbmngmt The database managment API; indexedDB
-        *   @param {string} [dbName] An optional name to use for the DB; default is {defaults.defaultDbName}.
-        *   @param {object} [storeName] An optional name for the data store; default is {defaults.defaultObjectStore}.
+        *   @param {string} [dbName] An optional name to use for the DB; default is {defaults.ioc.defaultDbName}.
+        *   @param {object} [storeName] An optional name for the data store; default is {defaults.ioc.defaultObjectStore}.
         *   @param {object} [ver] An optional version number for the database
         */
         "setDbms": {
             "value": function setDbms(dbmngmt, dbName, storeName, ver) {
                 dbms = dbmngmt;
-                databaseName = dbName || defaults.defaultDbName;
-                objectStoreName = storeName || defaults.defaultObjectStore;
+                databaseName = dbName || defaults.ioc.defaultDbName;
+                objectStoreName = storeName || defaults.ioc.defaultObjectStore;
                 version = ver || version;
                 db = null;
             }
@@ -190,7 +190,7 @@ function _OfflineStorage(
         }
         //make sure we have the dbms
         if (!dbms) {
-            return Promise.reject(new Error(errors.missing_dbms));
+            return Promise.reject(new Error(errors.ioc.missing_dbms));
         }
         //return a new promise that resolves to an instance of IDBdatabase
         return new Promise(function thenOpenDB(resolve, reject) {
@@ -200,7 +200,7 @@ function _OfflineStorage(
                 //set the event handlers
                 dbOpenRequest.onerror = (e) => {
                     //e.target.errorCode
-                    reject(new Error(errors.failed_open_db));
+                    reject(new Error(errors.ioc.failed_open_db));
                 };
                 dbOpenRequest.onsuccess = (e) => {
                     db = dbOpenRequest.result;

@@ -63,13 +63,13 @@ function _AbstractTree(
             "value": function setTree(extTree) {
                 //ensure this is an object
                 if (typeof extTree !== "object") {
-                    throw new Error(errors.invalid_tree);
+                    throw new Error(errors.ioc.invalid_tree);
                 }
                 if (!!abstractTree) {
-                    throw new Error(errors.tree_set);
+                    throw new Error(errors.ioc.tree_set);
                 }
                 //see if the tree is already processed
-                
+
                 //recursively loop through the external tree
                 abstractTree = {
                     "name": "root"

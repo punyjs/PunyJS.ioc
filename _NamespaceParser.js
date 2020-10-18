@@ -23,6 +23,7 @@
 function _NamespaceParser(
     namespaceProto
     , defaults
+    , errors
 ) {
     /**
     * A regexp pattern for parsing a fully qualified namespace
@@ -46,12 +47,12 @@ function _NamespaceParser(
     return function NamespaceParser(namespace) {
         //validate the namespace
         if (!namespace || typeof namespace !== "string") {
-            throw new Error(errors.invalid_namespace);
+            throw new Error(errors.ioc.invalid_namespace);
         }
         //get the fully(universally) qualified match
         var fqMatch = namespace.match(FQ_NS_PATT) || []
-        , owner = fqMatch[1] || defaults.defaultOwner
-        , id = fqMatch[3] || defaults.defaultId
+        , owner = fqMatch[1] || defaults.ioc.defaultOwner
+        , id = fqMatch[3] || defaults.ioc.defaultId
         , localVersioned = fqMatch[2]
         //get the local namespace match
         , localMatch = !!localVersioned
@@ -62,7 +63,7 @@ function _NamespaceParser(
             /**
             * @rule requires_local The namespace requires a local namespace
             */
-            : (()=>{throw new Error(errors.invalid_namespace);})()
+            : (()=>{throw new Error(errors.ioc.invalid_namespace);})()
         //extract the version
         , versionObj = createVersionObject(localMatch.slice(2, 7))
         //get the commit hash

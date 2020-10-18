@@ -16,6 +16,7 @@
 */
 function _DependencyNotationTranslator(
     dependencyNotationEntryTyper
+    , errors
 ) {
     var cnsts = {
         /**
@@ -186,7 +187,7 @@ function _DependencyNotationTranslator(
     */
     function translateDependencies(depends) {
         if (!Array.isArray(depends)) {
-            throw new Error(errors.invalid_dependencies);
+            throw new Error(errors.ioc.invalid_dependencies);
         }
         return depends.map(function mapDepend(depend) {
             return self(depend);
@@ -198,7 +199,7 @@ function _DependencyNotationTranslator(
     */
     function translateProperties(extProperties) {
         if (typeof extProperties !== "object") {
-            throw new Error(errors.invalid_members);
+            throw new Error(errors.ioc.invalid_members);
         }
         var members = {};
 
@@ -215,7 +216,7 @@ function _DependencyNotationTranslator(
     */
     function translateBindArgs(bindArgs) {
         if (typeof bindArgs !== "object") {
-            throw new Error(errors.invalid_members);
+            throw new Error(errors.ioc.invalid_members);
         }
         var argEntries = {};
 

@@ -1,14 +1,12 @@
 /**
 * @factory
-*   @dependency errors PunyJS.ioc.Errors
 *   @dependency reporter PunyJS.core.log._Reporter
 *   @dependency reporter PunyJS.ioc._ProcessDetails
 * @naming
 *   @alias resolvers.branch
 */
 function _Branch (
-    errors
-    , reporter
+    reporter
     , processDetails
 ) {
 

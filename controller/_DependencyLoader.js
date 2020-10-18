@@ -35,7 +35,7 @@ function _DependencyLoader(
             "enumerable": true
             , "value": function load(namespace) {
                 //do a reload if we are skipping the local storage
-                if (defaults.skipLocal) {
+                if (defaults.ioc.skipLocal) {
                     return self.reload(namespace);
                 }
                 var nsObj = namespaceParser(namespace);
@@ -126,7 +126,7 @@ function _DependencyLoader(
         })
         //save the value to the offline storage
         .then(function thenUpdateStorage(results) {
-            if (defaults.skipLocal) {
+            if (defaults.ioc.skipLocal) {
                 return Promise.resolve(results);
             }
             //save the results to offline storage
@@ -185,7 +185,7 @@ function _DependencyLoader(
                 if (missing.length > 0) {
                     reject(
                         new Error(
-                            `${errors.missing_loaded_dependencies} (${missing})`
+                            `${errors.ioc.missing_loaded_dependencies} (${missing})`
                         )
                     );
                 }

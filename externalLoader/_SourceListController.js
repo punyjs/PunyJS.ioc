@@ -48,7 +48,7 @@ function _SourceListController(
         "setSourceList": {
             "value": function setSourceList(sources) {
                 if (!Array.isArray(sources)) {
-                    throw new Error(`${errors.invalid_source_list} (${typeof sources})`);
+                    throw new Error(`${errors.ioc.invalid_source_list} (${typeof sources})`);
                 }
                 //set the reference
                 sourceList = sources;
@@ -74,7 +74,7 @@ function _SourceListController(
         , "insertSource": {
             "value": function insertSource(sourceEntry, index) {
                 if (!sourceList) {
-                    throw new Error(`${errors.missing_source_list}`);
+                    throw new Error(`${errors.ioc.missing_source_list}`);
                 }
                 validateEntry(sourceEntry);
                 apply(
@@ -100,7 +100,7 @@ function _SourceListController(
         , "updateSource": {
             "value": function updateSource(namespace, sourceEntry) {
                 if (!sourceList) {
-                    throw new Error(`${errors.missing_source_list}`);
+                    throw new Error(`${errors.ioc.missing_source_list}`);
                 }
                 validateEntry(sourceEntry);
                 apply(
@@ -128,7 +128,7 @@ function _SourceListController(
         , "removeSource": {
             "value": function removeSource(namespace) {
                 if (!sourceList) {
-                    throw new Error(`${errors.missing_source_list}`);
+                    throw new Error(`${errors.ioc.missing_source_list}`);
                 }
                 //find the namespace index in the
                 var entryIndex = findIndexByNamespace(namespace);
@@ -162,7 +162,7 @@ function _SourceListController(
             || !sourceEntry.hasOwnProperty("endpointUri")
             || !sourceEntry.hasOwnProperty("endpointType")
         ) {
-            throw new Error(errors.invalid_source_entry);
+            throw new Error(errors.ioc.invalid_source_entry);
         }
     }
     /**

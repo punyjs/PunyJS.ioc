@@ -32,7 +32,7 @@ function _Concrete(
     ) {
         if (!container) {
             return Promise.reject(
-                new Error(errors.missing_container)
+                new Error(errors.ioc.missing_container)
             );
         }
 
@@ -56,7 +56,7 @@ function _Concrete(
             //catch load errors
             .catch(function catchError(err) {
                 return Promise.reject(
-                    `${errors.failed_load_dependency} (${abstractEntry.namespace}) ${err}`
+                    `${errors.ioc.failed_load_dependency} (${abstractEntry.namespace}) ${err}`
                 );
             })
             //update the container at namespace

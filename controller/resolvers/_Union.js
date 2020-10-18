@@ -79,7 +79,7 @@ function _Union (
                 //it's got to be an object
                 if (typeof res !== "object") {
                     throw new Error (
-                        `${errors.invalid_union_object} (${typeof res})`
+                        `${errors.ioc.invalid_union_object} (${typeof res})`
                     );
                 }
                 //perform the union
@@ -159,13 +159,13 @@ function _Union (
         //if we made it here and we can't have conflicts, throw error
         if (conflictResolution === "error") {
             throw new Error(
-                `${errors.union_conflict} (${key})`
+                `${errors.ioc.union_conflict} (${key})`
             );
         }
         //unless this is a warning, then just report the conflict
         else if (conflictResolution === "warning") {
             reporter.warning(
-                `${errors.union_conflict} (${key})`
+                `${errors.ioc.union_conflict} (${key})`
             );
         }
         //quietly fail and return objA

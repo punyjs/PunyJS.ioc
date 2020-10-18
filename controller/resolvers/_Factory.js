@@ -1,7 +1,6 @@
 /**
 * @factory
 *   @dependency dependencyNotationTranslator PunyJS.ioc._DependencyNotationTranslator
-*   @dependency errors PunyJS.ioc.Errors
 *   @dependency reporter PunyJS.core.log._Reporter
 *   @dependency reporter PunyJS.ioc._ProcessDetails
 * @naming
@@ -9,7 +8,6 @@
 */
 function _Factory(
     dependencyNotationTranslator
-    , errors
     , reporter
     , processDetails
     , defaults
@@ -153,7 +151,7 @@ function _Factory(
         //add the abstract entry dependencies on top
         abstractDeps
         .forEach(function forEachAbstractDep(dep, indx) {
-            if (dep.value !== defaults.skipPlaceholder) {
+            if (dep.value !== defaults.ioc.skipPlaceholder) {
                 if(!dep.namespace) {
                     dep.namespace = `_argument${indx + 1}`;
                 }

@@ -62,7 +62,7 @@ function _HttpLoader(
             //anything other than 200 is an error
             if (request.status !== 200) {
                 reject(
-                    new Error(`${errors.http_invalid_response} (${request.status}: ${request.statusText} -> ${request.responseType})`)
+                    new Error(`${errors.ioc.http_invalid_response} (${request.status}: ${request.statusText} -> ${request.responseType})`)
                 );
                 return;
             }
@@ -75,7 +75,7 @@ function _HttpLoader(
             //no json then reject
             if (typeof results !== "object") {
                 reject(
-                    new Error(`${errors.http_invalid_response} ${typeof results}`)
+                    new Error(`${errors.ioc.http_invalid_response} ${typeof results}`)
                 );
             }
 
@@ -88,7 +88,7 @@ function _HttpLoader(
     function addTimeoutListener(request, reject) {
         request.addEventListener("timeout", function handleLoadEnd(e) {
             reject(
-                new Error(`${errors.http_timeout}`)
+                new Error(`${errors.ioc.http_timeout}`)
             );
         });
     }
@@ -98,7 +98,7 @@ function _HttpLoader(
     function addErrorListener(request, reject) {
         request.addEventListener("error", function handleError() {
             reject(
-                new Error(`${errors.http_failed}`)
+                new Error(`${errors.ioc.http_failed}`)
             );
         });
     }

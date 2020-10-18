@@ -41,7 +41,7 @@ function _Evaluate(
     ) {
         if(!global) {
             return Promise.reject(
-                new Error(errors.missing_global)
+                new Error(errors.ioc.missing_global)
             );
         }
         return Promise.resolve()
@@ -85,7 +85,7 @@ function _Evaluate(
             if (!match) {
                 return Promise.reject(
                     new Error(
-                        `${errors.invalid_evaluate_expression} (${abstractEntry.expression})`
+                        `${errors.ioc.invalid_evaluate_expression} (${abstractEntry.expression})`
                     )
                 );
             }
@@ -94,7 +94,7 @@ function _Evaluate(
             if (!global.hasOwnProperty(globalKey)) {
                 return Promise.reject(
                     new Error(
-                        `${errors.missing_global_property} (${globalKey})`
+                        `${errors.ioc.missing_global_property} (${globalKey})`
                     )
                 );
             }
