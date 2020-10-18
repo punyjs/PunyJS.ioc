@@ -145,14 +145,11 @@ function _Controller(
         * Set the prototype to the controller function
         * @function
         */
-        function Controller(namespace, args, options) {
-            //this could be a factory
-            if (!!args) {
-                return self.exec(namespace, args, options);
+        function Controller(extEntry) {
+            if (typeof extEntry === "string") {
+                extEntry = [extEntry];
             }
-            else {
-                return self.resolve(namespace);
-            }
+            return self.resolve(extEntry);
         }
         /**
         * @properties
@@ -189,44 +186,11 @@ function _Controller(
             *   @async
             */
             , "resolve": {
-                "value": function resolve(namespace) {
-                    //throw error if invalid
-                    validateNamespace(namespace);
+                "enumerable": true
+                , "value": function resolve(extEntry) {
                     //execute the dependency resolver, which should return a promise
                     return dependencyController.resolve(
-                        namespace
-                    )
-                    //then get the resulting value for the dependency
-                    .then(function returnResultingValue(dep) {
-                        return Promise.resolve(dep.value);
-                    });
-                }
-            }
-            /**
-            * Resolves the path to a factory function, resolves the function args,
-            * and then executes the function.
-            * @method
-            *   @param {string} namespace An abstract, concrete, or eval path to a function
-            *   @param {array} [args] An array of arguments used for
-            *   {Argument-Augmentation} when executing the factory function.
-            *   @param {object} [options] A collection of options to use for the factory entry
-            *   @async
-            */
-            , "exec": {
-                "value": function exec(namespace, args, options) {
-                    //throw error if invalid
-                    validateNamespace(namespace);
-                    //make sure the args and options are set
-                    options = options || {};
-                    args = args || [];
-                    if (!Array.isArray(args) && !!args) {
-                        args = [args];
-                    }
-                    //execute the factory runner
-                    dependencyController.resolve(
-                        namespace
-                        , args
-                        , options
+                        extEntry
                     )
                     //then get the resulting value for the dependency
                     .then(function returnResultingValue(dep) {
@@ -241,10 +205,11 @@ function _Controller(
             *   @async
             */
             , "run": {
-                "value": function run(...args) {
+                "enumerable": true
+                , "value": function run(...args) {
                     //execute the run dependency
                     return dependencyController.resolve(
-                        `.${defaults.runDependencyName}`
+                        [`.${defaults.runDependencyName}`]
                     )
                     //then execute the resulting run worker function
                     .then(function thenRunWorker(resolvedEntry) {
@@ -262,17 +227,4 @@ function _Controller(
             }
         }
     );
-
-    /**
-    *
-    * @function
-    */
-    function validateNamespace(namespace) {
-        //ensure that the namespace is a string
-        if (typeof namespace !== "string") {
-            throw new Error(
-                `${errors.invalid_concrete_abstract_namespace} (${namespace})`
-            );
-        }
-    }
 }
