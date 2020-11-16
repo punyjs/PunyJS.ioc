@@ -9,7 +9,7 @@
         , "./manifests/node.manifest.json"
         , {
             "type": "test"
-            , "name": "test-package"
+            , "name": "test-package-ioc-controller-node"
             , "units": {
                 "module": -1
             }
@@ -21,7 +21,7 @@
         , "./manifests/browser.manifest.json"
         , {
             "type": "test"
-            , "name": "test-package"
+            , "name": "test-package-ioc-controller-browser"
             , "units": {
                 "module": -1
             }
