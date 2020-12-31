@@ -236,17 +236,14 @@ function _DependencyNotationTranslator(
         });
     }
     /**
-    * Applies properties from the source to the target when the property doesn't
-    * already exist.
+    * Applies properties from the source to the target
     * @function
     */
     function apply(source, target) {
         if (!!source && typeof source === "object") {
             Object.keys(source)
                 .forEach(function forEachKey(key) {
-                    if (!target.hasOwnProperty(key)) {
-                        target[key] = source[key]
-                    }
+                    target[key] = source[key];
                 });
         }
     }
