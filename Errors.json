@@ -17,6 +17,7 @@
         , "invalid_path": "[Invalid Path] The path must be a string in dot notation."
         , "invalid_owner": "[Invalid Owner] The owner must be an object; the owner of the method."
         , "invalid_method": "[Invalid Method] The method property name must point to a function."
+        , "method_not_exists": "[Method Not Exists] The method does not exist on the owner"
         , "invalid_source_list": "[Invalid Source List] The source list must be an array of {iSource}."
         , "invalid_source_entry": "[Invalid Source Entry] The source entry must be an instance of {iSource}"
         , "missing_source_list": "[Missing Source List] The source list must be set before dependencies can be loaded."
