@@ -80,7 +80,14 @@ function _Method(
     */
     function validateOwnerAndMethod(ownerResolvedEntry, methodName) {
         var owner = ownerResolvedEntry.value
-        , method = owner[methodName];
+        , method = owner[methodName]
+        , hasMethod = methodName in owner
+        ;
+        if (!hasMethod) {
+            return Promise.reject(
+                new Error(`${errors.ioc.method_not_exists} (${methodName})`)
+            );
+        }
 
         if (typeof owner !== "object" && typeof owner !== "function") {
             return Promise.reject(
@@ -103,7 +110,8 @@ function _Method(
     */
     function resolveBindArguments(abstractEntry, ownerResolvedEntry, procDetails) {
         var args = abstractEntry.options.bind.args || []
-        , procs = [];
+        , procs = [ownerResolvedEntry.value]
+        ;
 
         args.forEach(function forEachArg(argEntry, indx) {
             /// LOGGING
@@ -118,9 +126,6 @@ function _Method(
             );
         });
 
-        //add the ownerEntry to the tail of the argument processes
-        procs.push(ownerResolvedEntry);
-
         return Promise.all(procs);
     }
     /**
@@ -129,7 +134,7 @@ function _Method(
     *   @async
     */
     function bindOwnerToMethod(abstractEntry, argsAndOwner) {
-        var owner = argsAndOwner[argsAndOwner.length - 1].value
+        var owner = argsAndOwner[0]
         , method = owner[abstractEntry.methodName]
         ;
 
