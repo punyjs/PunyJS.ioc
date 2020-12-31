@@ -10,7 +10,6 @@
                 "statements": {
                     "beginning": [
                         "var xmlHttpRequest = XMLHttpRequest"
-                        , ", browser_performance = performance"
                         , ", timing_origin = Date.now()"
                         , ", node_process = null"
                         , ", node_path = null"

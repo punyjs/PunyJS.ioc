@@ -10,7 +10,7 @@
                 "statements": {
                     "beginning": [
                         "var xmlHttpRequest = null"
-                        , ", browser_performance = null"
+                        , ", performance = require(\"perf_hooks\").performance"
                         , ", timing_origin = Date.now()"
                         , ", node_process = process"
                         , ", node_path = require(\"path\")"
