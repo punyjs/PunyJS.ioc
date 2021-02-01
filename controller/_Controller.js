@@ -4,7 +4,6 @@
 * @factory
 *   @dependency dependencyController PunyJS.ioc._dependencyController
 *   @dependency offlineStorage PunyJS.ioc._OfflineStorage
-*   @dependency abstractTree PunyJS.ioc._AbstractTree
 *   @dependency externalLoader PunyJS.ioc._ExternalLoader
 *   @dependency reporter PunyJS.core.log._Reporter
 *   @dependency defaults PunyJS.ioc.Defaults
@@ -17,7 +16,6 @@
 function _Controller(
     dependencyController
     , offlineStorage
-    , abstractTree
     , externalLoader
     , consumerReference
     , reporter

@@ -70,16 +70,6 @@ function _DependencyController(
             "value": function setAbstractTree(tree) {
                 //initialize the tree
                 abstractTree.setTree(tree);
-                //set the global on the tree
-                //set the global
-                if (!!global) {
-                    abstractTree.upsertNode(
-                        {
-                            "path": "global"
-                            , "value" : global
-                        }
-                    );
-                }
             }
         }
         /**
