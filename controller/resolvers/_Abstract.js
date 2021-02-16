@@ -63,7 +63,19 @@ function _Abstract(
                 !!abstractEntry.options
                 && abstractEntry.options.hasOwnProperty("default")
             ) {
-                return abstractEntry.options.default;
+                return Promise.resolve(
+                    {
+                        "value": abstractEntry.options.default
+                    }
+                );
+            }
+            //see if we don't care if it's missing
+            if (abstractEntry.options.missingAction === "none") {
+                return Promise.resolve(
+                    {
+                        "value": null
+                    }
+                );
             }
             //if we made it here then the abstract entry doesn't exist, bad news
             return Promise.reject(
