@@ -56,6 +56,12 @@ function _DependencyController(
     * @private
     */
     , resolveHandles = {}
+    /**
+    * @constants
+    */
+    , cnsts = {
+        "resolveKeyword": "$resolve"
+    }
     ;
 
     /**
@@ -526,6 +532,15 @@ function _DependencyController(
     function resolveDependency(procDetails, abstractEntry) {
         //evals always resolve to a concrete value
         if (abstractEntry.type === "eval") {
+            //if the eval entry is for the internal $resolve
+            if (abstractEntry.expression === cnsts.resolveKeyword) {
+                return Promise.resolve(
+                    {
+                        "value": self.resolve
+                    }
+                );
+            }
+            //otherwise run the evaluate resolver
             return resolvers.evaluate(
                 abstractEntry
                 , global
