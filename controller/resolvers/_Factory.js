@@ -80,8 +80,6 @@ function _Factory(
                 `Factory Finished: ${abstractEntry.namespace}`
                 , procDetails
             );
-            abstractEntry.value = result;
-            abstractEntry.isResolved = true;
             /// END LOGGING
             return Promise.resolve({
                 "value": result

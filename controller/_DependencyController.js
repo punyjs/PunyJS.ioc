@@ -654,10 +654,11 @@ function _DependencyController(
     * @function
     */
     function finalizeEntry(abstractEntry, resolvedEntry) {
-        //update the abstract entry with the resolved entry but not if it's a factory without singleton = true
-        if (abstractEntry.type !== "factory"
-            || abstractEntry.options.singleton === true)
-        {
+        //update the abstract entry with the resolved entry but not if it's a factory without singleton === false
+        if (
+            abstractEntry.type !== "factory"
+            || abstractEntry.factoryEntry.options.singleton !== false
+        ) {
             abstractEntry.value = resolvedEntry;
             abstractEntry.isResolved = true;
         }
