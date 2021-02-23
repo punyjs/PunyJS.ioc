@@ -40,10 +40,10 @@ function _Factory(
                 , procDetails
             );
         })
-        .then(function thenResolveDependencies(resolvedEntry) {
+        .then(function thenResolveDependencies(resolvedFactoryEntry) {
             var dependencies = getFactoryDependencies(
                 abstractEntry
-                , resolvedEntry
+                , resolvedFactoryEntry
             );
             /// LOGGING
             reporter.ioc(
@@ -52,7 +52,7 @@ function _Factory(
             );
             /// END LOGGING
             return resolveDependencies(
-                resolvedEntry
+                resolvedFactoryEntry
                 , dependencies
                 , dependencyResolver
                 , procDetails
@@ -65,10 +65,14 @@ function _Factory(
                 , procDetails
             );
             /// END LOGGING
-            var entry = argsAndEntry.pop()
-            , args = argsAndEntry;
+            var resolvedFactoryEntry = argsAndEntry.pop()
+            , args = argsAndEntry
+            ;
             abstractEntry.arguments = args;
-            return runFactory(entry, args);
+            return runFactory(
+                resolvedFactoryEntry
+                , args
+            );
         })
         .then(function thenResolveEntry(result) {
             /// LOGGING
@@ -76,6 +80,8 @@ function _Factory(
                 `Factory Finished: ${abstractEntry.namespace}`
                 , procDetails
             );
+            abstractEntry.value = result;
+            abstractEntry.isResolved = true;
             /// END LOGGING
             return Promise.resolve({
                 "value": result
@@ -120,7 +126,11 @@ function _Factory(
                     return arg.value;
                 });
                 var fn = entry.value
-                , result = fn.apply(null, args);
+                , result = fn.apply(null, args)
+                ;
+
+
+
                 resolve(result);
             }
             catch(ex) {
