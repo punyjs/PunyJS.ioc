@@ -536,7 +536,7 @@ function _DependencyController(
             if (abstractEntry.expression === cnsts.resolveKeyword) {
                 return Promise.resolve(
                     {
-                        "value": self.resolve
+                        "value": runtimeResolve
                     }
                 );
             }
@@ -615,6 +615,24 @@ function _DependencyController(
         return Promise.reject(
             new Error(`${errors.ioc.invalid_entry_type} ("${abstractEntry.type}")`)
         );
+    }
+    /**
+    * @function
+    */
+    function runtimeResolve(abstractEntry) {
+        //resolve the entry and then return the value
+        return self.resolve(
+            abstractEntry
+        )
+        .then(
+            function thenReturnValue(result) {
+                if (!!result && !!result.value) {
+                    return Promise.resolve(result.value);
+                }
+                return Promise.resolve();
+            }
+        )
+        ;
     }
     /**
     * @function
