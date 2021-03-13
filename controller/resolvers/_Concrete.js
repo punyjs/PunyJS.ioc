@@ -15,6 +15,11 @@ function _Concrete(
     , reporter
     , processDetails
 ) {
+    /**
+    * A regular expression pattern for replacing escaped dots in namespaces
+    * @property
+    */
+    var ESC_DOT_PATT = /[\\][.]/g
 
     /**
     * Finds a concrete value in the ioc container
@@ -37,39 +42,43 @@ function _Concrete(
         }
 
         //start a promise
-        var proc = Promise.resolve();
+        var namespace = abstractEntry.namespace.replace(
+            ESC_DOT_PATT
+            , "."
+        )
+        , proc = Promise.resolve();
 
         //if the namespace is missing then load it
-        if (!container.hasNamespace(abstractEntry.namespace)) {
+        if (!container.hasNamespace(namespace)) {
             proc = proc.then(function thenLoadDependency() {
                 /// LOGGING
                 reporter.ioc(
-                    `Load Concrete Dependency: ${abstractEntry.namespace}`
+                    `Load Concrete Dependency: ${namespace}`
                     , procDetails
                 );
                 /// END LOGGING
                 //execute the dependency laoder
                 return dependencyLoader.load(
-                    abstractEntry.namespace
+                    namespace
                 );
             })
             //catch load errors
             .catch(function catchError(err) {
                 return Promise.reject(
-                    `${errors.ioc.failed_load_dependency} (${abstractEntry.namespace}) ${err}`
+                    `${errors.ioc.failed_load_dependency} (${namespace}) ${err}`
                 );
             })
             //update the container at namespace
             .then(function thenUpdateContainer(result) {
                 /// LOGGING
                 reporter.ioc(
-                    `Concrete Dependency Loaded: ${abstractEntry.namespace}`
+                    `Concrete Dependency Loaded: ${namespace}`
                     , procDetails
                 );
                 /// END LOGGING
                 //update the container
                 container.set(
-                    abstractEntry.namespace
+                    namespace
                     , result.value
                     , result.options
                 );
@@ -81,12 +90,12 @@ function _Concrete(
         proc = proc.then(function thenReadContainer() {
             /// LOGGING
             reporter.ioc(
-                `Resolve Concrete: ${abstractEntry.namespace}`
+                `Resolve Concrete: ${namespace}`
                 , procDetails
             );
             /// END LOGGING
             return Promise.resolve(
-                container.get(abstractEntry.namespace)
+                container.get(namespace)
             );
         });
 
@@ -94,7 +103,7 @@ function _Concrete(
         proc = proc.then(function thenTranslateDependencies(concreteEntry) {
             /// LOGGING
             reporter.ioc(
-                `Concrete Resolved: ${abstractEntry.namespace} [${typeof concreteEntry.value}]`
+                `Concrete Resolved: ${namespace} [${typeof concreteEntry.value}]`
                 , procDetails
             );
             /// END LOGGING
