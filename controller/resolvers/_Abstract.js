@@ -37,7 +37,10 @@ function _Abstract(
                 );
                 /// END LOGGING
                 return Promise.resolve(
-                    abstractTree.findNode(abstractEntry.namespace)
+                    abstractTree.findNode(
+                        abstractEntry.namespace
+                        , abstractEntry.options.caseInsensitive
+                    )
                 );
             }
             catch(ex) {
