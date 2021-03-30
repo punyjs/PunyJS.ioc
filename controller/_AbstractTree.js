@@ -115,11 +115,14 @@ function _AbstractTree(
         * @method
         */
         , "findNode": {
-            "value": function findNode(path) {
+            "value": function findNode(path, caseInsensitive) {
                 if (!path || typeof path !== "string") {
                     throw new Error(error.invalid_path);
                 }
-                return find(path);
+                return find(
+                    path
+                    , caseInsensitive
+                );
             }
         }
         /**
@@ -153,13 +156,44 @@ function _AbstractTree(
     * Looks for a node in the abstract tree at path
     * @function
     */
-    function find(path) {
+    function find(path, caseInsensitive) {
+        if (caseInsensitive === true) {
+            return findCaseInsensitive(
+                path
+            );
+        }
         var namespace = path.split(DOT_PATT)
         , scope = abstractTree
         , success =
             namespace.every(function everyPart(part) {
                 if (scope.hasOwnProperty("members")) {
                     if (scope.members.hasOwnProperty(part)) {
+                        scope = scope.members[part];
+                        return true;
+                    }
+                }
+            });
+        if (success) {
+            return scope;
+        }
+    }
+    /**
+    * @function
+    */
+    function findCaseInsensitive(path) {
+        var namespace = path.split(DOT_PATT)
+        , scope = abstractTree
+        , success =
+            namespace.every(function everyPart(part) {
+                if (scope.hasOwnProperty("members")) {
+                    part = part.toLowerCase();
+                    part = Object.keys(scope.members)
+                    .find(
+                        function findPropName(propName) {
+                            return propName.toLowerCase() === part;
+                        }
+                    );
+                    if (!!part) {
                         scope = scope.members[part];
                         return true;
                     }
