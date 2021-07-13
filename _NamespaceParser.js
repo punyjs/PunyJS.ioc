@@ -19,6 +19,7 @@
 *       @property {string} build
 *   @property {string} commitHash The commit hash; use this instead of version
 *   @property {string} root The root namespace
+*   @property {boolean} isRelative If the namespace does not begin with a pascal cased
 */
 function _NamespaceParser(
     namespaceProto
@@ -30,7 +31,7 @@ function _NamespaceParser(
     * @property
     * @private
     */
-    var FQ_NS_PATT = /^(?:([0-9a-fA-F]{1,16})[:])?(.[^,:]+)(?:[,]([0-9a-fA-F]{1,16}))?$/
+    var FQ_NS_PATT = /^(?:([0-9a-fA-F]{1,16})[:])?(.[^,:]+)(?:[,]([0-9a-fA-F]{1,16}|[0-9]+))?$/
     /**
     * A regexp pattern to parse a local namespace
     * @property
@@ -45,6 +46,12 @@ function _NamespaceParser(
     *   a local, versioned, and/or universally qualified
     */
     return function NamespaceParser(namespace) {
+        //if this is already a namespace then just return it
+        if (typeof namespace === "object") {
+            if (Object.getPrototypeOf(namespace) === namespaceProto) {
+                return namespace;
+            }
+        }
         //validate the namespace
         if (!namespace || typeof namespace !== "string") {
             throw new Error(errors.ioc.invalid_namespace);
@@ -52,7 +59,7 @@ function _NamespaceParser(
         //get the fully(universally) qualified match
         var fqMatch = namespace.match(FQ_NS_PATT) || []
         , owner = fqMatch[1] || defaults.ioc.defaultOwner
-        , id = fqMatch[3] || defaults.ioc.defaultId
+        , id = parseInt(fqMatch[3]) || defaults.ioc.defaultId
         , localVersioned = fqMatch[2]
         //get the local namespace match
         , localMatch = !!localVersioned
@@ -123,7 +130,14 @@ function _NamespaceParser(
         , universal = `${owner}:${localVersioned}`
         //concat the values for the full namespace
         , fqns = `${universal},${id || 0}`
+        , root = local.split(".")[0]
+        , isRelative = false
         ;
+        //if the local begins with a dot then it's relative
+        if (root[0] === ".") {
+            root = undefined;
+            isRelative = true;
+        }
 
         //create and return the {iNamespace} object
         return Object.create(namespaceProto, {
@@ -161,7 +175,11 @@ function _NamespaceParser(
             }
             , "root": {
                 "enumerable": true
-                , "value": local.split(".")[0]
+                , "value": root
+            }
+            , "isRelative": {
+                "enumerable": true
+                , "value": isRelative
             }
         });
     }
