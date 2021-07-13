@@ -1,7 +1,7 @@
 {
     "ioc": {
-        "defaultOwner": "00"
-        , "defaultId": "0"
+        "defaultOwner": 0
+        , "defaultId": 0
         , "defaultDbName": "db"
         , "defaultObjectStore": "dependencies"
         , "skipPlaceholder": "\b"
